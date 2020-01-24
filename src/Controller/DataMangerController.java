@@ -28,6 +28,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TreeItem;
+import javafx.scene.input.MouseEvent;
+import mufix.app.pkg2020.MUFIXAPP2020;
 
 /**
  * FXML Controller class
@@ -127,6 +129,15 @@ public class DataMangerController implements Initializable, ControlledScreen {
     @Override
     public void setScreenParent(ScreensController screenPage) {
         myController = screenPage;
+    }
+
+    @FXML
+    private void RightAction(MouseEvent event) {
+        myController.setScreen(MUFIXAPP2020.MainID);
+    }
+
+    @FXML
+    private void LeftAction(MouseEvent event) {
     }
 
 }

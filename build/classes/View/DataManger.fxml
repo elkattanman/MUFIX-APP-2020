@@ -3,7 +3,9 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import com.jfoenix.controls.JFXTreeTableView?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.net.URL?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
@@ -11,6 +13,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -20,7 +23,7 @@
         <URL value="@Style.css" />
     </stylesheets>
    <children>
-      <HBox layoutX="45.0" layoutY="73.0" prefHeight="100.0" prefWidth="200.0" spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+      <HBox layoutX="45.0" layoutY="73.0" prefHeight="100.0" prefWidth="200.0" spacing="15.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0">
          <children>
             <JFXTreeTableView fx:id="table" prefHeight="570.0" prefWidth="714.0" tableMenuButtonVisible="true">
                <columns>
@@ -90,5 +93,18 @@
             </VBox>
          </children>
       </HBox>
+      <Pane layoutY="-61.0" prefHeight="47.0" prefWidth="1100.0" style="-fx-background-color: #00a9e7;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <FontAwesomeIconView fill="#ffffff" glyphName="ARROW_CIRCLE_ALT_RIGHT" layoutX="1000.0" layoutY="40.0" onMouseClicked="#RightAction" size="50" />
+            <FontAwesomeIconView fill="#ffffff" glyphName="ARROW_CIRCLE_ALT_LEFT" layoutX="50.0" layoutY="40.0" onMouseClicked="#LeftAction" size="50" wrappingWidth="43.64285659790039" />
+            <Label layoutX="433.0" text="QR Generator" textFill="WHITE">
+               <font>
+                  <Font name="Book Antiqua Bold Italic" size="37.0" />
+               </font>
+            </Label>
+         </children></Pane>
    </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
 </AnchorPane>

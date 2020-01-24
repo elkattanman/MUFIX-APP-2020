@@ -102,4 +102,19 @@ public class Student extends RecursiveTreeObject<Student>{
     public String toString() {
         return "MUFIX{" + id.get() + "," + name.get() + "," + phone.get() + "," + track.get() + '}';
     }
+    public boolean ToObj(String s){
+        s=s.substring(6, s.length()-1);
+        String a[]=s.split(",");
+        if(a.length==4){
+            setId(Integer.parseInt(a[0]));
+            setName(a[1]);
+            setPhone(a[2]);
+            setTrack(a[3]);
+            return true;
+        }
+            return false;
+    }
+    public static void main(String[] args) {
+        new Student().ToObj("MUFIX{1,Mustafa Khaled,0111111,Java}");
+    }
 }

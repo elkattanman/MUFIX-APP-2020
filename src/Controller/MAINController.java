@@ -5,6 +5,8 @@
  */
 package Controller;
 
+import DAO.StudentDAO;
+import Model.Student;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
 import com.google.zxing.BinaryBitmap;
@@ -23,17 +25,24 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import javafx.embed.swing.SwingNode;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javax.swing.SwingUtilities;
+import mufix.app.pkg2020.MUFIXAPP2020;
 
 /**
  * FXML Controller class
  *
  * @author Mustafa Khaled
  */
-public class MAINController implements Initializable , Runnable , ThreadFactory,ControlledScreen {
+public class MAINController implements Initializable, Runnable, ThreadFactory, ControlledScreen {
+
     ScreensController myController;
     private Webcam webcam = null;
     private Executor executor = Executors.newSingleThreadExecutor(this);
@@ -42,6 +51,7 @@ public class MAINController implements Initializable , Runnable , ThreadFactory,
     @FXML
     private JFXTextField nameTF, phoneTF, trackTF, statusTF;
 
+    Student st = null;
     /**
      * Initializes the controller class.
      */
@@ -61,7 +71,7 @@ public class MAINController implements Initializable , Runnable , ThreadFactory,
             public void run() {
                 Dimension size = new Dimension(640, 480);
                 webcam.setViewSize(size);
-                WebcamPanel panel= new WebcamPanel(webcam);
+                WebcamPanel panel = new WebcamPanel(webcam);
                 panel.setPreferredSize(size);
                 panel.setFPSDisplayed(true);
                 swingNode.setContent(panel);
@@ -73,7 +83,7 @@ public class MAINController implements Initializable , Runnable , ThreadFactory,
     public void run() {
         do {
             try {
-                Thread.sleep(100);
+                Thread.sleep(1200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -86,7 +96,7 @@ public class MAINController implements Initializable , Runnable , ThreadFactory,
                 if ((image = webcam.getImage()) == null) {
                     continue;
                 }
-                
+
                 LuminanceSource source = new BufferedImageLuminanceSource(image);
                 BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
 
@@ -97,8 +107,25 @@ public class MAINController implements Initializable , Runnable , ThreadFactory,
                 }
             }
             if (result != null) {
-                String s=result.getText();
-                System.out.println("QR : "+s);   
+                String s = result.getText();
+                st = new Student();
+                if (s.matches("MUFIX(.*)") && st.ToObj(s)) {
+                    System.out.println("QR : " + s);
+                    nameTF.setText(st.getName());
+                    phoneTF.setText(st.getPhone());
+                    trackTF.setText(st.getTrack());
+                    st=new StudentDAO().getUser(st.getId(), st.getName());
+                    if ( st!= null) {
+                        statusTF.setStyle("-fx-font-size: 30px;-fx-text-fill : Green");
+                        statusTF.setText("User Found!");
+                    } else {
+                        statusTF.setStyle("-fx-font-size: 30px;-fx-text-fill : RED");
+                        statusTF.setText("User Not Found!");
+                    }
+                } else {
+                    statusTF.setStyle("-fx-text-fill : red");
+                    statusTF.setText("Data Not Efficient");
+                }
             }
         } while (true);
     }
@@ -114,5 +141,40 @@ public class MAINController implements Initializable , Runnable , ThreadFactory,
     public void setScreenParent(ScreensController screenPage) {
         myController = screenPage;
     }
+
+    @FXML
+    private void RegisterAction(ActionEvent event) {
+        if(st==null){
+            statusTF.setStyle("-fx-font-size: 25px;-fx-text-fill : RED");
+            statusTF.setText("No Such Object!");
+            return;
+        }
+        if (!new StudentDAO().attendance(st.getId())) {
+            statusTF.setStyle("-fx-font-size: 25px;-fx-text-fill : RED");
+            statusTF.setText("Already Registered!");
+        }else{
+            statusTF.setStyle("-fx-font-size: 30px;-fx-text-fill : Green");
+            statusTF.setText("OK!");
+        }
+    }
+
+    @FXML
+    private void CancelAction(ActionEvent event) {
+        st=null;
+        nameTF.clear();
+        phoneTF.clear();
+        trackTF.clear();
+        statusTF.clear();
+    }
+
+    @FXML
+    private void RightAction(MouseEvent event) {
+    }
+
+    @FXML
+    private void LeftAction(MouseEvent event) {
+        myController.setScreen(MUFIXAPP2020.MangerID);
+    }
+    
 
 }
