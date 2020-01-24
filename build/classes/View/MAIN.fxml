@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="600.0" prefWidth="1100.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="Controller.MAINController">
+    <stylesheets>
+        <URL value="@Style.css" />
+    </stylesheets>
+   <children>
+      <HBox layoutX="200.0" layoutY="177.0" prefHeight="100.0" prefWidth="200.0" spacing="15.0" style="-fx-border-color: #ccc; -fx-border-radius: 50;" styleClass="containerClass" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+         <children>
+            <Pane fx:id="camiraPane" prefHeight="360.0" prefWidth="640.0" style="-fx-background-color: #ccc;">
+               <HBox.margin>
+                  <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+            </Pane>
+            <GridPane alignment="CENTER" prefHeight="568.0" prefWidth="369.0" style="-fx-background-color: #eee;">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="177.0" minWidth="10.0" prefWidth="114.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="261.0" minWidth="10.0" prefWidth="250.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <HBox.margin>
+                  <Insets bottom="15.0" right="15.0" top="15.0" />
+               </HBox.margin>
+               <children>
+                  <Label text="NAME">
+                     <font>
+                        <Font name="Ink Free" size="36.0" />
+                     </font>
+                  </Label>
+                  <Label text="Phone" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Ink Free" size="36.0" />
+                     </font>
+                  </Label>
+                  <Label text="Track" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Ink Free" size="36.0" />
+                     </font>
+                  </Label>
+                  <Label prefHeight="59.0" prefWidth="115.0" text="status" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Ink Free" size="36.0" />
+                     </font>
+                  </Label>
+                  <JFXTextField fx:id="nameTF" GridPane.columnIndex="1" />
+                  <JFXTextField fx:id="phoneTF" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <JFXTextField fx:id="trackTF" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <JFXTextField fx:id="statusTF" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
