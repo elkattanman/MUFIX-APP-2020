@@ -149,7 +149,7 @@ public class MAINController implements Initializable, Runnable, ThreadFactory, C
             statusTF.setText("No Such Object!");
             return;
         }
-        if (!new StudentDAO().attendance(st.getId())) {
+        if (!new StudentDAO().attendance(st)) {
             statusTF.setStyle("-fx-font-size: 25px;-fx-text-fill : RED");
             statusTF.setText("Already Registered!");
         }else{

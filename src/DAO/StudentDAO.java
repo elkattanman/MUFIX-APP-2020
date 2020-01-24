@@ -25,14 +25,15 @@ public class StudentDAO {
 
     private final String getAll_stmt = "Select * From users";
     private final String getUser_stmt = "Select * From users where id=? and name=?";
-    private final String attendance_stmt = "insert into attendance values( ? , ? )";
+    private final String attendance_stmt = "insert into attendance values( ? , ? , ? )";
 
-    public boolean attendance(int id) {
+    public boolean attendance(Student st) {
         try (PreparedStatement pstmt = DBConnection.getCon().prepareStatement(attendance_stmt)) {
             Date d = new Date(System.currentTimeMillis());
             SimpleDateFormat df = new SimpleDateFormat("DD/MM/YYYY");
-            pstmt.setInt(1, id);
-            pstmt.setString(2, df.format(d));
+            pstmt.setInt(1, st.getId());
+            pstmt.setString(2, st.getName());
+            pstmt.setString(3, df.format(d));
             pstmt.execute();
         } catch (SQLException ex) {
             if (ex.getErrorCode() == -104) {
@@ -53,6 +54,7 @@ public class StudentDAO {
 //        String table="drop table attendance";
         String table = "create table attendance ("
                 + "     ID integer not null,"
+                + "     name varchar(60) not null,"
                 + "     day varchar(11) not null,"
                 + "     CONSTRAINT physician_FK_ID"
                 + "     FOREIGN KEY (ID)"
@@ -70,7 +72,27 @@ public class StudentDAO {
             Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    public static void CreateUserTable(){
+        String table = "create table users ("
+                        + "ID Integer not null ,"
+                        + "Name varchar(60) not null,"
+                        + "phone varchar(15) not null,"
+                        + "track varchar(60) not null,"
+                        + "CONSTRAINT [PrimaryKey] PRIMARY KEY ([ID])"
+                    + ")";
+        try (PreparedStatement pstmt = DBConnection.getCon().prepareStatement(table)) {
+            pstmt.execute();
+        } catch (SQLException ex) {
+            System.out.println(ex.toString());
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText("Look, an Error Dialog");
+            alert.setContentText(ex.getMessage());
+            alert.showAndWait();
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public ObservableList<Student> getAllUSers() {
         ObservableList<Student> all = FXCollections.observableArrayList();
         try (PreparedStatement pstmt = DBConnection.getCon().prepareStatement(getAll_stmt)) {
@@ -113,7 +135,8 @@ public class StudentDAO {
     }
 
     public static void main(String[] args) {
-//        createAttendanceTable();
+//        CreateUserTable();
+        createAttendanceTable();
 //        System.out.println(new StudentDAO().getUser(1, "Mustafa Khaled"));
     }
 }
