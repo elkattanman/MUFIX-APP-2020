@@ -6,6 +6,7 @@
 package Controller;
 
 import DAO.StudentDAO;
+import Model.DES;
 import Model.Student;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
@@ -18,12 +19,15 @@ import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import com.jfoenix.controls.JFXTextField;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.embed.swing.SwingNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -54,6 +58,8 @@ public class MAINController implements Initializable, Runnable, ThreadFactory, C
     Student st = null;
     /**
      * Initializes the controller class.
+     * @param url
+     * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -66,16 +72,13 @@ public class MAINController implements Initializable, Runnable, ThreadFactory, C
     }
 
     private void createAndSetSwingContent(final SwingNode swingNode) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                Dimension size = new Dimension(640, 480);
-                webcam.setViewSize(size);
-                WebcamPanel panel = new WebcamPanel(webcam);
-                panel.setPreferredSize(size);
-                panel.setFPSDisplayed(true);
-                swingNode.setContent(panel);
-            }
+        SwingUtilities.invokeLater(() -> {
+            Dimension size = new Dimension(640, 480);
+            webcam.setViewSize(size);
+            WebcamPanel panel = new WebcamPanel(webcam);
+            panel.setPreferredSize(size);
+            panel.setFPSDisplayed(true);
+            swingNode.setContent(panel);
         });
     }
 
@@ -107,24 +110,30 @@ public class MAINController implements Initializable, Runnable, ThreadFactory, C
                 }
             }
             if (result != null) {
-                String s = result.getText();
-                st = new Student();
-                if (s.matches("MUFIX(.*)") && st.ToObj(s)) {
-                    System.out.println("QR : " + s);
-                    nameTF.setText(st.getName());
-                    phoneTF.setText(st.getPhone());
-                    trackTF.setText(st.getTrack());
-                    st=new StudentDAO().getUser(st.getId(), st.getName());
-                    if ( st!= null) {
-                        statusTF.setStyle("-fx-font-size: 30px;-fx-text-fill : Green");
-                        statusTF.setText("User Found!");
+                Toolkit.getDefaultToolkit().beep();
+                try {
+                    DES des=new DES("Mufix.org");
+                    String s = des.DECRYPT(result.getText());
+                    st = new Student();
+                    if (s.matches("MUFIX(.*)") && st.ToObj(s)) {
+                        System.out.println("QR : " + s);
+                        nameTF.setText(st.getName());
+                        phoneTF.setText(st.getPhone());
+                        trackTF.setText(st.getTrack());
+                        st=new StudentDAO().getUser(st.getId(), st.getName());
+                        if ( st!= null) {
+                            statusTF.setStyle("-fx-font-size: 30px;-fx-text-fill : Green");
+                            statusTF.setText("User Found!");
+                        } else {
+                            statusTF.setStyle("-fx-font-size: 30px;-fx-text-fill : RED");
+                            statusTF.setText("User Not Found!");
+                        }
                     } else {
-                        statusTF.setStyle("-fx-font-size: 30px;-fx-text-fill : RED");
-                        statusTF.setText("User Not Found!");
+                        statusTF.setStyle("-fx-text-fill : red");
+                        statusTF.setText("Data Not Efficient");
                     }
-                } else {
-                    statusTF.setStyle("-fx-text-fill : red");
-                    statusTF.setText("Data Not Efficient");
+                } catch (Exception ex) {
+                    Logger.getLogger(MAINController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         } while (true);

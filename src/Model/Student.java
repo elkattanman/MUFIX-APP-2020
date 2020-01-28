@@ -16,8 +16,8 @@ import javafx.beans.property.StringProperty;
  * @author Mustafa Khaled
  */
 public class Student extends RecursiveTreeObject<Student>{
-    public IntegerProperty id;
-    public StringProperty name , phone ,track;
+    private IntegerProperty id;
+    private StringProperty name , phone ,track;
 
     public Student() {
     }
@@ -114,7 +114,7 @@ public class Student extends RecursiveTreeObject<Student>{
         }
             return false;
     }
-    public static void main(String[] args) {
-        new Student().ToObj("MUFIX{1-Mustafa Khaled-0111111-Java}");
-    }
+//    public static void main(String[] args) {
+//        new Student().ToObj("MUFIX{1-Mustafa Khaled-0111111-Java}");
+//    }
 }

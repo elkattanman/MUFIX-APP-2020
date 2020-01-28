@@ -9,6 +9,7 @@ import Model.Student;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -26,6 +27,7 @@ public class StudentDAO {
     private final String getAll_stmt = "Select * From users";
     private final String getUser_stmt = "Select * From users where id=? and name=?";
     private final String attendance_stmt = "insert into attendance values( ? , ? , ? )";
+    private final String insertStudent_stmt = "insert into users (name, phone , track) values( ? , ? , ? )";
 
     public boolean attendance(Student st) {
         try (PreparedStatement pstmt = DBConnection.getCon().prepareStatement(attendance_stmt)) {
@@ -112,6 +114,24 @@ public class StudentDAO {
         return all;
     }
 
+    
+    public int insertStudent(Student st){
+        try(PreparedStatement pstmt = DBConnection.getCon().prepareStatement(insertStudent_stmt, Statement.RETURN_GENERATED_KEYS)){
+            //pstmt.setInt(1, Integer.parseInt(c.getId()));
+            pstmt.setString(1, st.getName());
+            pstmt.setString(2, st.getPhone());
+            pstmt.setString(3, st.getTrack());
+            pstmt.executeUpdate();
+            try(ResultSet generatedKeys = pstmt.getGeneratedKeys()){
+                if(generatedKeys.next()){
+                    st.setId(generatedKeys.getInt(1));
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return st.getId();
+    }
     public Student getUser(int id, String name) {
         Student s = null;
         try (PreparedStatement pstmt = DBConnection.getCon().prepareStatement(getUser_stmt)) {

@@ -27,6 +27,7 @@
          <children>
             <JFXTreeTableView fx:id="table" prefHeight="570.0" prefWidth="714.0" tableMenuButtonVisible="true">
                <columns>
+                  <TreeTableColumn fx:id="idCol" prefWidth="258.0" text="id" />
                   <TreeTableColumn fx:id="nameCol" prefWidth="258.0" text="Name" />
                   <TreeTableColumn fx:id="phoneCol" prefWidth="75.0" text="Phone" />
                   <TreeTableColumn fx:id="trackCol" prefWidth="75.0" text="Track" />
@@ -40,7 +41,7 @@
                   <JFXTextField fx:id="searchTF" focusColor="#00d09f" labelFloat="true" maxWidth="309.0" minWidth="289.0" prefHeight="31.0" prefWidth="309.0" promptText="Search" unFocusColor="#dadada" />
                   <HBox prefHeight="46.0" prefWidth="326.0">
                      <children>
-                        <JFXButton id="BTNS" disable="true" onAction="#addAction" prefHeight="46.0" prefWidth="81.0" style="-fx-background-color: #00a9e7;" text="ADD" textFill="WHITE" />
+                        <JFXButton id="BTNS" onAction="#addAction" prefHeight="46.0" prefWidth="81.0" style="-fx-background-color: #00a9e7;" text="ADD" textFill="WHITE" />
                         <JFXButton id="BTNS" onAction="#printAction" prefHeight="46.0" prefWidth="81.0" style="-fx-background-color: #00b56f;" text="Print" textFill="WHITE" />
                         <JFXButton id="BTNS" onAction="#printAllAction" prefHeight="46.0" prefWidth="81.0" style="-fx-background-color: #ff5656;" text="Print ALL" textFill="WHITE" />
                         <JFXButton id="BTNS" onAction="#clearAction" prefHeight="46.0" prefWidth="81.0" style="-fx-background-color: #273968;" text="CLEAR" textFill="WHITE" />
@@ -52,37 +53,48 @@
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="232.0" minWidth="10.0" prefWidth="232.0" />
                     </columnConstraints>
                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="NAME">
+                        <Label text="NAME" GridPane.rowIndex="1">
                            <font>
                               <Font name="Ink Free" size="36.0" />
                            </font>
                         </Label>
-                        <Label text="Phone" GridPane.rowIndex="1">
+                        <Label text="Phone" GridPane.rowIndex="2">
                            <font>
                               <Font name="Ink Free" size="36.0" />
                            </font>
                         </Label>
-                        <Label text="Track" GridPane.rowIndex="2">
+                        <Label text="Track" GridPane.rowIndex="3">
                            <font>
                               <Font name="Ink Free" size="36.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="nameTF" labelFloat="true" promptText="NAME" unFocusColor="#1900f8" GridPane.columnIndex="1">
+                        <JFXTextField fx:id="nameTF" labelFloat="true" promptText="NAME" unFocusColor="#1900f8" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font name="Ink Free" size="25.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField fx:id="phoneTF" labelFloat="true" promptText="Phone" unFocusColor="#1900f8" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <JFXTextField fx:id="phoneTF" labelFloat="true" promptText="Phone" unFocusColor="#1900f8" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <font>
                               <Font name="Ink Free" size="25.0" />
                            </font>
                         </JFXTextField>
-                        <JFXTextField fx:id="trackTF" labelFloat="true" promptText="Track" unFocusColor="#1900f8" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <JFXTextField fx:id="trackTF" labelFloat="true" promptText="Track" unFocusColor="#1900f8" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Ink Free" size="25.0" />
+                           </font>
+                        </JFXTextField>
+                        <Label text="ID">
+                           <font>
+                              <Font name="Ink Free" size="36.0" />
+                           </font>
+                        </Label>
+                        <JFXTextField fx:id="idTF" editable="false" labelFloat="true" promptText="ID" unFocusColor="#1900f8" GridPane.columnIndex="1">
                            <font>
                               <Font name="Ink Free" size="25.0" />
                            </font>

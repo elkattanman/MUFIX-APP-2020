@@ -55,24 +55,24 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Label text="NAME">
+                        <Label text="Name">
                            <font>
-                              <Font name="Ink Free" size="36.0" />
+                              <Font name="Comfortaa Light" size="35.0" />
                            </font>
                         </Label>
                         <Label text="Phone" GridPane.rowIndex="1">
                            <font>
-                              <Font name="Ink Free" size="36.0" />
+                              <Font name="Comfortaa Light" size="35.0" />
                            </font>
                         </Label>
                         <Label text="Track" GridPane.rowIndex="2">
                            <font>
-                              <Font name="Ink Free" size="36.0" />
+                              <Font name="Comfortaa Light" size="35.0" />
                            </font>
                         </Label>
                         <Label prefHeight="59.0" prefWidth="115.0" text="status" GridPane.rowIndex="3">
                            <font>
-                              <Font name="Ink Free" size="36.0" />
+                              <Font name="Comfortaa Light" size="35.0" />
                            </font>
                         </Label>
                         <JFXTextField fx:id="nameTF" alignment="CENTER" editable="false" unFocusColor="#0800f8" GridPane.columnIndex="1">

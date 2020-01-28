@@ -14,6 +14,8 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,6 +24,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
@@ -32,10 +36,14 @@ public class QR {
 
     public static final String QR_CODE_IMAGE_PATH = "./MyQRCodes/";
     public static final String QR_CODE_LOGO_PATH = "./QR_CODE_LOGO_PATH.png";
+    public static final String TEMP_PATH = "./temp.png";
 
-    public void generateQRCodeImage(String text, int width, int height, String filePath)
-            throws WriterException, IOException {
-        File file=new File(filePath);
+    public void generateQRCodeImage(Student st,int width, int height, String filePath)
+            throws WriterException, IOException, Exception {
+        DES des=new DES("Mufix.org");
+        String text=st.toString();
+        text= des.ENCRYPT(text);
+        File file = new File(filePath);
         file.getParentFile().mkdirs();
         // Create new configuration that specifies the error correction
         Map<EncodeHintType, ErrorCorrectionLevel> hints = new HashMap<>();
@@ -55,18 +63,23 @@ public class QR {
         int deltaWidth = qrImage.getWidth() - overly.getWidth();
 
         // Initialize combined image
-        BufferedImage combined = new BufferedImage(qrImage.getHeight(), qrImage.getWidth(), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage combined = ImageIO.read(new FileInputStream(TEMP_PATH));
         Graphics2D g = (Graphics2D) combined.getGraphics();
 
         // Write QR code to new image at position 0/0
-        g.drawImage(qrImage, 0, 0, null);
+        g.drawImage(qrImage, 35, 130, null);
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
 
         // Write logo into combine image at position (deltaWidth / 2) and
         // (deltaHeight / 2). Background: Left/Right and Top/Bottom must be
         // the same space for the logo to be centered
-        g.drawImage(overly, (int) Math.round(deltaWidth / 2), (int) Math.round(deltaHeight / 2), null);
+        g.drawImage(overly, 35+(int) Math.round(deltaWidth / 2), 130+(int) Math.round(deltaHeight / 2), null);
 
+        Font font = new Font("Comfortaa Bold", Font.PLAIN, 35);
+        g.setFont(font);
+        g.setColor(new Color(0x9e0b0f));
+        g.drawString(st.getName(), 365,307);
+        g.drawString(st.getTrack(), 487,362);
         //write comb here 
         //MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
         ImageIO.write(combined, "png", new File(filePath));
@@ -94,6 +107,18 @@ public class QR {
 
         public int getArgb() {
             return argb;
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            Student st=new Student();
+            st.ToObj("MUFIX{1-Mustafa Khaled-0111111-Java}");
+            new QR().generateQRCodeImage(st , 300, 300, QR_CODE_IMAGE_PATH + "Mustafa.png");
+        } catch (WriterException | IOException ex) {
+            Logger.getLogger(QR.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(QR.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
